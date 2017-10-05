@@ -1,7 +1,12 @@
 (ns cocktail-optimiser.handler
-  (:require [compojure.api.sweet :as sweet]))
+  (:require [compojure.api.sweet :refer [api context GET POST]]))
 
-(sweet/defapi app
-  (sweet/GET "/ping" []
-             {:body "pong"
-              :status 200}))
+(def app
+  (api
+   {:swagger {:ui "/api-docs"
+              :spec "/swagger.json"
+              :data {}}}
+   (context "" []
+     (GET "/ping" []
+       {:body "pong"
+        :status 200}))))
