@@ -1,5 +1,6 @@
 (ns cocktail-optimiser.handler
-  (:require [compojure.api.sweet :refer [api context GET POST]]))
+  (:require [compojure.api.sweet :refer [api context GET POST]]
+            [cocktail-optimiser.datastore :as ds]))
 
 (def app
   (api
@@ -8,5 +9,11 @@
               :data {}}}
    (context "" []
      (GET "/ping" []
-       {:body "pong"
-        :status 200}))))
+       {:status 200
+        :body "pong"})
+
+     (context "/v1/recipes" []
+       (GET "/:recipe" req
+         {:status 200
+          :headers {"Content-Type" "application/json"}
+          :body (ds/get-recipe "junk")})))))
