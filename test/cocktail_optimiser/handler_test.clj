@@ -5,7 +5,6 @@
 
 (defn coerce-body
   [{:keys [headers] :as resp}]
-  (println (get headers "Content-Type"))
   (if (= (get headers "Content-Type") "application/json; charset=utf-8")
     (update resp :body (comp #(json/parse-string % true) slurp))
     resp))
@@ -17,12 +16,13 @@
     (is (= "pong" body))))
 
 (deftest recipe-returns
-  (let [{:keys [status body]} (coerce-body (handler/app {:uri "/v1/recipes/appletini"
+  (let [{:keys [status body]} (coerce-body (handler/app {:uri "/v1/recipes/margarita"
                                                          :request-method :get}))]
     (is (= 200 status))
-    (is (= {:ingredients {:vodka 3
+    (is (= {} body))
+#_    (is (= {:ingredients {:vodka 3
                           :calvados 1
                           :contreau 1}
             :garnish {:apple-slice 1}
             :method ["chill glass" "mix in a shaker" "pour into glass" "garnish and serve"]}
-           body))))
+          body))))

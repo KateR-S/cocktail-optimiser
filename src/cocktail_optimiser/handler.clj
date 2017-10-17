@@ -13,7 +13,7 @@
         :body "pong"})
 
      (context "/v1/recipes" []
-       (GET "/:recipe" req
+       (GET "/:recipe" [recipe]
          {:status 200
           :headers {"Content-Type" "application/json"}
-          :body (ds/get-recipe "junk")})))))
+          :body (ds/get-recipe recipe)})))))
